@@ -1,0 +1,64 @@
+//////////////////////////////////////////////////////
+//
+//    pysae v0.1
+//           a sina app engine sdk with python 
+//                (not official)
+//    
+//    NOW,ONLY SUPPORT "SEGMENT" AND "SMS"
+//////////////////////////////////////////////////////
+
+ author : Eric Yue (http://weibo.com/ericyue)
+ 
+ blog   : www.ericyue.info
+ 
+ email  : hi.moonlight@gmail.com
+
+USAGE:
+    #place the pysae.py in your project folder
+        1>from pysae import SAE_APIBus
+        2>sae=SAE_APIBus('YOUR_ACCESSKEY_HERE','YOUR_SECRETKEY_HERE')
+        3>sae.load('segment') or sae.load('sms')
+        4>if you are using segment service ,then: 
+            sae.setSegmentContent('CONTENT_HERE')
+        4>if you are using sms service,then:
+            sae.setSMS('PHONE_NUMBER','MESSAGE_HERE','UTF-8')
+        5>sae.fetch()
+        6>enjoy it :)
+
+IF THERE IS ANY QUESTIONS , EMAIL ME OR @ericyue(http://weibo.com/ericyue).
+
+
+#ERROR INFO
+
+==Datastructer:
+                ApiBusError (errcode:errdesc)
+errcode: ERROR CODE
+errdesc: ERROR DETAIL INFO
+
+==return format:  JSON
+
+==retrun code defination：
+status      eturn-detail-en            return-detail-ch              	
+0           success                     成功
+600         internal_error              内部错误
+601         no_such_user                _AccessKey_ 不存在
+602         auth_error                  认证错误，可能是secretkey 不正确
+603         out_of_quota                超出fetchurl 的使用配额
+604         rest_error                  REST 协议错误，相关的header 不存在或其它错误
+605         invalid_uri                 _FetchUrl_不是有效的Url
+606         invalid_host                _FetchUrl_对应的服务器不可达或者是一个私网地址
+607         service_not_enabled         _FetchUrl_对应的扩展服务尚未启用
+
+error examples（JSON）：
+{"ApiBusError":{"errcode":"600","errdesc":"internal_error"}} 
+
+{"ApiBusError":{"errcode":"601","errdesc":"no_such_user"}}
+
+#LISCENSE
+Licensed under the Apache License, Version 2.0 (the "License"); 
+You may not use this work except in compliance with the License. 
+You may obtain a copy of the License in the LICENSE file, or at:
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
