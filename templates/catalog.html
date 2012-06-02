@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load search_template_tag_extra %}
+
+{% block header %}
+
+<script src="/static/js/catalog.js"></script>
+<script src="/static/js/flipify.js" type="text/javascript" charset="utf-8"></script>
+
+<link href="/static/css/catalog.css" rel="stylesheet">
+
+{% endblock%}
+{% block title %}商品分类 - {% endblock %}
+
+{% block content %}
+	<header class="hero-unit" align="center">
+	   <div class="well">
+	       <div class="row">
+	                {% if result.object_list %}
+	                {% for ritem in result.object_list %}
+                             <div class="thumbnail span2-5" style="margin-top:10px;">
+              	                            {% if ritem.MorePhotos.1 %}
+                     				            <img src="{{ritem.MorePhotos.1}}_200x200.jpg" style="height:200px">
+                     				            {% else %}
+                     				            <img src="{{ritem.MorePhotos.0}}_200x200.jpg" style="height:200px">
+                     				            {% endif %}
+
+                     				            <div class="caption">
+                     				              <h5>{{ritem.ProductName}}</h5>
+                     				              <p><span class="badge badge-warning">￥</span><a href="#" class="tooltip-test" title="别着急买,先看看用户的讨论吧:)"> <b>{{ritem.ProductPrice|shrink_price}}</b></a> </p>
+                     				              <p><a href="/item/{{ritem.ProductID}}" class="btn btn-info">查看</a> 
+                     				                  <a class="btn dislike-recommend" >不喜欢</a></p>
+                     				            </div>
+                     				          </div>
+
+                            {% endfor %}
+	                {% endif %}
+	                
+                    
+               </div>
+	           
+	   </div>
+	   {% if result.object_list %} 		   
+       	<div class="pagination">
+               <ul>
+                   {% if result.has_previous %}
+                   <li><a href="{{current_url}}?page={{ result.previous_page_number }}">&laquo;</a></li> 
+                   {% else %}
+                   <li class="disabled"><a>&laquo;</a></li> 
+                   {% endif %}
+                   {% for p in page_range %}
+
+                   {% ifequal p result.number %}
+                   <li class="active"><a href="#">{{p}}</a></li>
+                   {% else %}
+                   <li><a href="{{current_url}}?page={{p}}">{{p}}</a></li>
+                   {% endifequal %}
+
+                   {% endfor %}
+                   {% if result.has_next %}
+                   <li><a href="{{current_url}}?page={{ result.next_page_number }}">&raquo;</a></li>
+                   {% else %}
+                    <li class="disabled"><a>&raquo;</a></li>
+                   {% endif %}
+
+
+               </ul>
+             </div>
+
+          {% endif %}
+	</header>
+	
+{% endblock %}

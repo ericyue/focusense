@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load search_template_tag_extra %}
+
+{% block title %}{{search_key_words|join:" "}} - {% endblock %}
+
+{% block header %}
+<link rel="stylesheet" href="/static/css/jquery.fancybox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/static/js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="/static/js/search.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
+
+	<div class="container-fixed">
+	      <div class="well">
+	        <h3>您的关键字</h3><br>
+					<form action="/search">
+			        <input placeholder="搜点什么吧？" value="{{search_key_words|join:" "}}" name="keys" type="text" class="span10" style="margin: 0 auto;height:34px;" data-provide="typeahead" data-items="4" data-source='["{{instant_search|join:'","'}}"]'/>
+			        
+					<div class="btn-group pull-right">
+							          <button  style="height:43px" class="btn btn-large btn-primary">全局搜索</button>
+							          <button class="btn btn-large dropdown-toggle btn-primary" style="height:43px" data-toggle="dropdown"><span class="caret"></span></button>
+							          <ul class="dropdown-menu">
+							            <li><a href="#taobao">搜索淘宝</a></li>
+							            <li><a href="#jingdong">搜索京东</a></li>
+							            <li><a href="#fanke">搜索凡客</a></li>
+							            <li class="divider"></li>
+							            <li><a href="#all">全局搜索</a></li>
+							          </ul>
+							        </div><!-- /btn-group -->
+			</form>
+			<div class="alert alert-success">
+			        <strong>你要找的是不是:</strong>
+			        
+			        {% for key in mmseg_keys %}
+                        <a class="{{rand|random_label:0}}" href="search?keys={{key}}">{{key}}</a>
+                    {% endfor %}
+						
+			      </div>
+	      </div>
+	
+	</div>
+
+  
+  <!-- Example row of columns -->
+ <div class="row">
+  
+     <div class="span8">
+<div class="well">
+       <table class="table table-bordered">
+         <thead>
+           <tr>
+             <th>搜索结果</th>
+             <th>名称</th>
+             <th>价格</th>
+           </tr>
+         </thead>
+         <tbody>
+ 			{% if result_list.object_list %} 				
+ 			{% for item in result_list.object_list %}
+ 			<tr>
+ 			    
+ 			    {% if item.MorePhotos.1 %}
+                <td><a class="fancybox thumbnail"  href="{{ item.MorePhotos.1 }}" title="{{item.ProductName}}"><img width="52" height="52" src="{{item.MorePhotos.1}}_sum.jpg"></a></td>
+ 			    
+ 			    {% else %}
+ 			    <td><a class="fancybox thumbnail"  href="{{ item.MorePhotos.0 }}" title="{{item.ProductName}}"><img width="52" height="52" src="{{item.MorePhotos.0}}_sum.jpg"></a></td>
+ 			    {% endif%}	
+
+ 				<td><a href="/item/{{ item.ProductID }}">{{ item.ProductName }}</a></td>
+ 				<td><a href="#" class="tooltip-test" title="别着急买,先看看比价结果:)">{{item.ProductPrice}}元</a></td>
+ 			</tr>
+ 			{% endfor %}
+ 			<div class="pagination">
+                 <ul>
+                     {% if result_list.has_previous %}
+                     <li><a href="{{current_url}}&page={{ result_list.previous_page_number }}">&laquo;</a></li> 
+                     {% else %}
+                     <li class="disabled"><a>&laquo;</a></li> 
+                     {% endif %}
+                     {% for p in page_range %}
+                     {% ifequal p result_list.number %}
+                     <li class="active"><a href="#">{{p}}</a></li>
+                     {% else %}
+                     <li><a href="{{current_url}}&page={{p}}">{{p}}</a></li>
+                     {% endifequal %}
+                     {% endfor %}
+                     {% if result_list.has_next %}
+                     <li><a href="{{current_url}}&page={{ result_list.next_page_number }}">&raquo;</a></li>
+                     {% else %}
+                      <li class="disabled"><a>&raquo;</a></li>
+                     {% endif %}
+                          
+
+                 </ul>
+               </div>
+ 			{% else %}
+ 			<tr><td colspan="4">没有搜索结果<br><a class="label  label-important">此次搜索请求已记录,我们会在未来更新时提高本关键词的权重.</a>
+ 			</td></tr>
+ 			{% endif %}
+         </tbody>
+       
+       </table>
+    {% if result_list.object_list %} 		   
+ 	<div class="pagination">
+         <ul>
+             {% if result_list.has_previous %}
+             <li><a href="{{current_url}}&page={{ result_list.previous_page_number }}">&laquo;</a></li> 
+             {% else %}
+             <li class="disabled"><a>&laquo;</a></li> 
+             {% endif %}
+             {% for p in page_range %}
+
+             {% ifequal p result_list.number %}
+             <li class="active"><a href="#">{{p}}</a></li>
+             {% else %}
+             <li><a href="{{current_url}}&page={{p}}">{{p}}</a></li>
+             {% endifequal %}
+
+             {% endfor %}
+             {% if result_list.has_next %}
+             <li><a href="{{current_url}}&page={{ result_list.next_page_number }}">&raquo;</a></li>
+             {% else %}
+              <li class="disabled"><a>&raquo;</a></li>
+             {% endif %}
+                  
+
+         </ul>
+       </div>
+    
+    {% endif %} 		
+</div>
+     </div>
+
+	<div class="span4">
+	      <div class="well">
+	        <h1>热门搜索</h1>
+            {% for key in hotkeys %}
+                <a class="{{rand|random_label:0}}" href="search?keys={{key}}">{{key}}</a>
+            {% endfor %}
+	      </div>
+	      <div class="well">
+  	        <h1>热门收藏</h1>
+              {% for ritem in MostLikeList %}
+                    <div class="row">
+                        <div class="thumbnail span1-5" style="margin-top:10px;">
+         	                            {% if ritem.cover.1 %}
+                				            <img src="{{ritem.cover.1}}_200x200.jpg" style="height:100px">
+                				            {% else %}
+                				            <img src="{{ritem.cover.0}}_200x200.jpg" style="height:100px;">
+                				            {% endif %}
+
+                				           
+                				          </div>
+                				           <div class="caption span2-5">
+                  				              <h5>{{ritem.title|cut_str:12}}</h5>
+                  				              <p><span class="badge badge-warning">￥</span><a href="#" class="tooltip-test" title="别着急买,先看看用户的讨论吧:)"> <b>{{ritem.price|shrink_price}}</b></a></p>
+                  				              <p><a href="/item/{{ritem.pid}}" class="btn btn-info">查看</a> 
+                   				                  <a class="btn dislike-recommend" >不喜欢</a></p>
+
+                  				            </div>
+                    </div>
+
+                    
+                   {% endfor %}
+  	      </div>
+
+	       <div class="well">
+  	        <h1>生活辅助</h1>
+  	        <iframe name="alimamaifrm" frameborder="0" marginheight="0" marginwidth="0" border="0" scrolling="no" width="300" height="170" src="http://www.taobao.com/go/app/tbk_app/chongzhi_300_170.php?pid=mm_30754753_2839873_9896494&page=chongzhi_300_170.php&size_w=300&size_h=170&stru_phone=1&stru_game=1&stru_travel=1&size_cat=std" ></iframe>
+  	      </div>
+  	       <div class="well">
+  	        <h1>猜你喜欢</h1>
+  	        
+  	      </div>
+	    </div>
+  </div>
+
+
+{% endblock %}

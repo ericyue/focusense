@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block header %}
+
+<script src="/static/js/index.js"></script>
+
+
+{% endblock%}
+
+
+{% block content %}
+
+<header class="hero-unit hide" align="center">
+	     <h1><img src="static/img/lab_logo_transprant.png" alt="Calcbot" width="92" height="92"/> Focusense</h1><br> <br>
+			<form action="/search" >
+				<input placeholder="想搜什么? 手机,iPad,iPhone,Macbook,创业36条军规,笔记本,女装,男装" value="{{search_key_words|join:" "}}" name="keys" type="text" class="span9" style="margin: 0 auto;height:34px;" data-provide="typeahead" data-items="4" data-source='["{{instant_search|join:'","'}}"]'/>
+
+						<div class="btn-group pull-right">
+							
+								          <button style="height:43px" class="btn btn-large btn-primary"><i class="icon-search icon-white"></i> 全局搜索</button>
+								          <button class="btn btn-large dropdown-toggle btn-primary" style="height:43px" data-toggle="dropdown"><span class="caret"></span></button>
+								          <ul class="dropdown-menu">
+								            <li><a href="#taobao">搜索淘宝</a></li>
+								            <li><a href="#jingdong">搜索京东</a></li>
+								            <li><a href="#fanke">搜索凡客</a></li>
+								            <li class="divider"></li>
+								            <li><a href="#all">全局搜索</a></li>
+								          </ul>
+								        </div><!-- /btn-group -->
+				</form>
+</header>
+
+
+{% endblock %}

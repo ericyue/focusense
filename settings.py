@@ -1,6 +1,13 @@
 # Django settings for focusense project.
+# from mongoengine import connect
+import os
+BASEPATH = os.getcwd()
 
 DEBUG = True
+
+VERSION = u'1.1.3 | 2011-4-18'
+
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -9,17 +16,18 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/ericyue/python/focusense/database.db',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': BASEPATH+'/database.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
-
+# connect('focusense')
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -27,7 +35,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Shanghai'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -45,12 +53,12 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__),'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -71,6 +79,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
+    BASEPATH+"/static",
     # Don't forget to use absolute paths, not relative paths.
 )
 
@@ -82,6 +91,10 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
+# AUTHENTICATION_BACKENDS = (
+#     'mongoengine.django.auth.MongoEngineBackend',
+# )
+# SESSION_ENGINE = 'mongoengine.django.sessions'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '^g0bx5upn5jkumh4#f$=w@o8g*ahvfyl4d4!6x_f5yaj@9pzs^'
 
@@ -104,7 +117,7 @@ ROOT_URLCONF = 'focusense.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    "/Users/ericyue/python/focusense/templates",
+    BASEPATH+"/templates",
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
@@ -117,13 +130,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'search',
-	'login',
-	'crawler',
+	'auth',
 	'system',
-    # Uncomment the next line to enable the admin:
+	'crawler',
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging

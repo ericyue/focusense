@@ -1,0 +1,397 @@
+{% extends "base.html" %}
+{% load search_template_tag_extra %}
+{% block header %}
+<script src="/static/js/jquery.query.js"></script>
+<script type="text/javascript" src="/static/js/jquery.fancybox.pack.js"></script>
+<script src="/static/js/jquery.lionbars.0.3.min.js"></script>
+<link rel="stylesheet" href="/static/css/lionbars.css" type="text/css"/>
+<link rel="stylesheet" href="/static/css/jquery.fancybox.css" type="text/css"/>
+<script src="/static/js/item.js"></script>
+
+{% endblock %}
+{% block title %}{{item.ProductName}} - {% endblock %}
+
+{% block content %}
+<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=4054124214" type="text/javascript" charset="utf-8"></script>
+     <!-- Main hero unit for a primary marketing message or call to action -->
+		<div class="container-fixed">
+				<div class="row">
+				      <div class="span2" >
+					      <div class="well"  style="height:90px">
+						      <h3 align="center">
+						          <img src="/static/img/lab_logo_transprant.png" width="80" height="80"/><br> Focusense.in</h3>
+                        </div>
+				  </div>
+						<div class="span10 well" style="height:90px;width:925px">	
+							        <form action="/search"><input placeholder="搜点什么吧？" value="{{search_key_words|join:" "}}" name="keys" type="text" class="span8" style="margin: 0 auto;height:34px;width:750px" data-provide="typeahead" data-items="4" data-source='["{{instant_search|join:'","'}}"]'/>
+									<div class="btn-group pull-right">
+											          <button  style="height:43px" class="btn btn-large btn-primary">全局搜索</button>
+											          <button class="btn btn-large dropdown-toggle btn-primary" style="height:43px" data-toggle="dropdown"><span class="caret"></span></button>
+											          <ul class="dropdown-menu">
+											            <li><a href="#taobao">搜索淘宝</a></li>
+											            <li><a href="#jingdong">搜索京东</a></li>
+											            <li><a href="#fanke">搜索凡客</a></li>
+											            <li class="divider"></li>
+											            <li><a href="#all">全局搜索</a></li>
+											          </ul>
+											        </div><!-- /btn-group -->
+
+							</form>	
+							<div class="alert alert-success">
+							        <strong>热门关键字:</strong>
+							        {% if hot_keys %}
+							        {% for key in hot_keys %}
+							        <a class="{{rand|random_label:0}}" href="/search?keys={{key}}">{{key}}</a>							 	    
+							 	    {% endfor %}
+							        {% else %}
+							        {% endif %}
+													
+							      </div>
+					    
+				      </div>
+				    </div>
+		      
+		
+			<div class="row-fluid">
+				
+		          
+			        <div class="span3">
+			          <div class="well sidebar-nav">
+						<ul class="nav nav-list"> 
+						    <li class="active"><a href="#">感兴趣的用户</a></li><br>
+  			              
+						    <div class="mini-layout" id="like-group">	
+						        {% if like_list %}
+						            {% for one in like_list %}
+                         			<img src="{{ one }}" style="margin:3px">
+                         			{% endfor %}	         
+                         		{% else %}
+                         		<img src="http://placehold.it/50x50" style="margin:3px">
+                         		貌似还没有人喜欢
+                         		{% endif %}
+                            </div>
+						</ul>
+
+			            <ul class="nav nav-list">
+					
+			              <li class="active"><a href="#">同类商品推荐</a></li><br>
+			              {% if recommendList %}
+			                    {% for ritem in recommendList %}
+			              <div class="thumbnail" style="margin-bottom:5px">
+			                            {% if ritem.MorePhotos.1 %}
+              				            <img src="{{ritem.MorePhotos.1}}">
+              				            {% else %}
+              				            <img src="{{ritem.MorePhotos.0}}">
+              				            {% endif %}
+              				            
+              				            <div class="caption">
+              				              <h5>{{ritem.ProductName}}</h5>
+              				              <p><span class="badge badge-warning">￥</span><a href="#" class="tooltip-test" title="别着急买,先看看用户的讨论吧:)"> <b>{{ritem.ProductPrice}}</b></a> </p>
+              				              <p><a href="/item/{{ritem.ProductID}}" class="btn btn-info">查看</a> 
+              				                  <a class="btn dislike-recommend" >不喜欢</a></p>
+              				            </div>
+              				          </div>
+              				      {% endfor %}
+			              {% else %}
+			              <p>暂时没有相关推荐</p>
+			              {% endif %}
+			
+			            </ul>
+			
+			          </div><!--/.well -->
+			        </div><!--/span-->
+			
+			        <div class="span9">
+						<ul class="breadcrumb">
+                          <li>
+                            <a href="catalog/0">所有分类</a> <span class="divider">/</span>
+                          </li>
+                          {% if item.Catalogs %}
+                            {% for cat in item.Catalogs reversed%}
+                             <li>
+                                    <a href="/catalog/{{cat.id}}">{{cat.value}}</a> <span class="divider">/</span>
+                                </li>
+                           
+                            {% endfor %}
+                          {% else %}                          
+                          {% endif %}
+                          <li class="active">本商品</li>
+                        </ul>
+                        
+						<div class="well">
+							<div class="row-fluid">
+							    
+								<div class="span4">	 
+									{% if item.MorePhotos.1 %}
+                                    <td><a class="fancybox thumbnail"  href="{{ item.MorePhotos.1 }}" title="{{item.ProductName}}"><img  src="{{item.MorePhotos.1}}"></a></td>
+
+                     			    {% else %}
+                     			    <td><a class="fancybox thumbnail"  href="{{ item.MorePhotos.0 }}" title="{{item.ProductName}}"><img  src="{{item.MorePhotos.0}}"></a></td>
+                     			    {% endif%}
+                     			    <div class=" well" style="margin-top:4px">
+                     			        
+                     			         <p><h3>价格: <a href="#" class="tooltip-test" title="别着急买,先看看用户的讨论吧:)">{{item.ProductPrice}}元</a></h3>
+    							              </p>
+      					            <div id="test2" class="bottom-left"></div>
+                                    {% if userProfile %}
+                                    <p><a class="btn btn-info btn-large" value="{{item.ProductID}}" id="like-button"><i class="icon-heart icon-white"></i>喜欢</a>
+                                    <a id="standardSelector" value="{{item.ProductID}}" type="button" class="btn btn-success btn-large"><i class="icon-share icon-white"></i>分享</a>
+                                        					<script>
+                                        					 {% if item.MorePhotos.1 %}
+                                                                var cover='{{item.MorePhotos.1}}'
+                        									    {% else %}
+                        									    var cover='{{item.MorePhotos.0}}'
+
+                        									    {% endif%}
+                                        WB2.anyWhere(function(W){
+                                        	W.widget.publish({
+                                        		id : 'standardSelector',
+                                        		button_size:'big',
+                                        		default_text :'<<亲,来说点什么吧～>>　@Focusense #{{item.ProductID}}# [{{item.ProductPrice}}元|{{item.ProductName}}] http://focusense.in/item/{{item.ProductID}}',
+                                        		default_image :cover
+
+                                        	});
+                                        });
+                                        					</script>
+                                      {% else %}
+
+    <a class="btn btn-success btn-large" data-toggle="modal" href="#loginModal"><i class="icon-user icon-white"></i>分享</a>
+                                      {% endif %}
+      					            <a class="btn btn-primary btn-large" target="_blank" href='{{taobaoke|default:item.ProductURL}}'><i class="icon-shopping-cart icon-white"></i>我买</a></p>
+                     			    </div>
+                                
+  					            </div>
+								<div class="span8">
+								<h1>{{item.ProductName}}</h1>
+								<div class="controls">
+            						<div class="accordion-group">
+            						    <p><table class="table table-striped">
+                                              
+                                              <tbody>
+                                               
+                                                   
+                                                   {% if item.SellerName %}
+                                                          <tr>
+                                                                <td>店铺信息</td>
+                                                                <td>
+                                                                    
+                                                                    <a href="{{item.ShopURL|default:'#'}}"  rel="popover" title="店铺信息" data-content="
+        {% if item.ShopRate.items%}
+        <i class='icon-heart icon-black'></i>{{item.ShopRate.items.0.0}}{{item.ShopRate.items.0.1}}&nbsp;&nbsp;
+        <i class='icon-text-height icon-black'></i>卖家昵称:{{item.SellerName|cut_str:4}}<br>
+       
+        <i class='icon-road icon-black'></i>{{item.ShopRate.items.1.0}}{{item.ShopRate.items.1.1}}&nbsp;&nbsp;
+         <i class='icon-user icon-black'></i>   卖家ID:{{item.SellelID}}<br>
+        <i class='icon-eye-open icon-black'></i>{{item.ShopRate.items.2.0}}{{item.ShopRate.items.2.1}}&nbsp;&nbsp;
+        <i class='icon-shopping-cart icon-black'></i>   店铺ID:{{item.ShopID}}<br>
+        
+        {% endif%}     
+        {% for i in item.featured_services_list %}
+             <a class='{{rand|random_label:0}}'>{{i}}</a>
+        {% endfor %} 
+        {% for i in item.pay_methods_list %}
+             <a class='{{rand|random_label:0}}'>{{i}}</a>
+        {% endfor %}                                                     
+        ">{{item.SellerName}}</a></td>
+                                                          </tr>
+                                                      {% endif %}
+                                                   {% if item.Soldout %}
+                                                          <tr>
+                                                                <td>已卖出</td>
+                                                                 
+                                                                <td><a class="label label-success">{{item.Soldout}}</a></td>
+                                                          </tr>
+                                                      {% endif %}
+                                                   {% if item.ReviewsSummary %}
+                                                          <tr>
+                                                                <td>卖家淘宝评分</td>
+                                                                <td>
+                                                                    
+                                                                   
+                                     <a class="label label-info">好评:{{item.ReviewsSummary.data.count.good}}</a>
+                                     <a class="label label-warning">中评:{{item.ReviewsSummary.data.count.normal}}</a>
+                                     <a class="label label-inverse">差评:{{item.ReviewsSummary.data.count.bad}}</a></td>
+                                                          </tr>
+                                                          <tr>
+                                                                  <td>商品相符分数</td>
+                                                                  <td>
+                                       <a class="label label-important">{{item.ReviewsSummary.data.correspond}}</a>
+                                                                  </td>
+                                                            </tr>
+                                                   {% endif %}
+                                                   {% if item.ReviewsSummary %}
+                                                             <tr>
+                                                                   <td>卖家淘宝评级</td>
+                                                                   <td><img src="{{item.Rank}}" alt=""></td>
+                                                             </tr>
+                                                      {% endif %}
+                                                   {% if item.fsrank_score %}
+                                                             <tr>
+                                                                   <td><a href="#" class="tooltip-test" title="Focusense评分是根据某种特定算法来过滤恶意卖家">Focusense评分</a></td>
+                                                                   
+                                                                   <td> <a class="label label-success">{{item.fsrank_score|floatformat:"2"}}</a></td>
+                                                             </tr>
+                                                   {% endif %}
+
+                                              </tbody>
+                                            </table></p>
+                                            
+            				              <div class="accordion-heading">
+            				                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+            									<span class="label label-info">点击查看详细信息</span>
+            				                </a>
+            				              </div>
+            				              <div id="collapseOne" class="accordion-body collapse">
+            				                <div class="accordion-inner">
+            				                 	 <p><table class="table table-striped">
+
+                                                          <tbody>
+
+                                                               {% if item.Property %}
+                                                                   {% for pro in item.Property.items %}
+                                                                   <tr>
+                                                                      <td>{{pro.0}}</td>
+                                                                      <td>{{pro.1|cut_str:30}}</td>
+                                                                   </tr>
+                                                                   {% endfor %}
+                                                               {% else %}
+
+                                                               {% endif %} 
+
+
+                                                          </tbody>
+                                                        </table></p>
+            				                </div>
+            				                
+            				              </div>
+            				             
+            				            </div>
+                                         
+
+            					            </div>
+					            
+                                     
+								</div>
+
+
+					          </div>
+							  <div class="well">
+					                {% for i in item.featured_services_list %}
+                                       <a class='{{rand|random_label:0}}'>{{i}}</a>
+                                  {% endfor %}
+					                {% for i in item.pay_methods_list %}
+                                       <a class='{{rand|random_label:0}}'>{{i}}</a>
+                                  {% endfor %}
+					            </div>
+						</div>
+
+			                <div class="well" >
+			                     <h2>微博讨论</h2><hr>  
+                                  {% if weibocomments %}
+
+			                     <div id="commen_weibo" style="height:300px;overflow:auto">
+ 			                              			                            {% for c in weibocomments %}
+      			                            <blockquote>
+                                                  <div class="row">
+                                                      <div class="span1">
+                                                          <a class="thumbnail"    rel="popover" title="用户信息" data-content="微博账号:{{c.status.user.screen_name}}<br>
+            个人简介:{{c.status.user.description}}<br>
+            所在城市:{{c.status.user.location}}" align="center"><img src="{{c.status.user.profile_image_url}}" href="http://weibo.com/{{c.status.user.domain}}"><h6 align="center">{{c.status.user.screen_name|cut_str:5}}</h6></a>
+
+                                                      </div>
+                                                    <div class="span7">
+                                                        {% autoescape off %}
+                                                        {{c.status.text}}
+                                                        {% if c.status.retweeted_status %}
+                                                         <div class="mini-layout fluid">
+
+                                                                      {{c.status.retweeted_status.text}} 
+                                                             </div>
+                                                       {% endif %}
+                                                        {% endautoescape %}
+                                                        
+                                                    </div>  
+                                                    <div>
+                                                    <button class="btn btn-success btn-small pull-right" style="margin-left:4px" type="submit">转发</button>
+                                                    <button class="btn btn-small pull-right" type="submit">评论</button>
+                                                    </div>
+                                                  </div>
+
+
+                                                </blockquote>
+      			                            {% endfor %}
+ </div>
+      			                     {% else %}
+                                        <h4>没有相关讨论</h4>
+                                        {% endif %} 
+ 			                    			                 </div>
+			                 <div class="well" >
+			                     <h2>淘宝讨论</h2><hr>
+			                     <div id="commen_taobao" style="height:500px;overflow:auto">
+			                         {% if item.CommentsTaobao %}
+     			                            {% for c in item.CommentsTaobao %}
+     			                            <blockquote>
+                                                 <div class="row">
+                                                     <div class="span1">
+                                                         <div class="thumbnail"><img src="{{c.user.avatar}}"><h6 align="center">{{c.user.nick|cut_str:4}}</h6></div>
+
+                                                     </div>
+                                                   <div class="span7">
+                                                       {% autoescape off %}{{c.content}}{% endautoescape %}
+                                                   </div>  
+                                                 </div>
+
+
+                                               </blockquote>
+     			                            {% endfor %}
+
+     			                     {% else %}
+
+     			                     {% endif %}
+			                     </div>
+			                     
+			                 </div>
+			          
+					 <div class="well">
+ 							<h2>商品展示</h2>
+ 							          <p>来自商家的图片展示,仅供参考</p>
+ 							          <div id="myCarousel" align="center" class="carousel slide">
+ 							            <div class="carousel-inner">
+
+ 							            {% if item.DetailImages %} 
+ 							              {% for photo in item.DetailImages %}
+ 							                <div class="item">
+    							                <img src="{{photo}}" style="height:auto;" alt="">
+    							                <div class="carousel-caption">
+    							                  <h4>{{item.ProductName}}</h4>
+    							                </div>
+    							              </div>
+ 							              {% endfor %}
+ 							              {% else %}
+ 							               {% for photo in item.MorePhotos %}
+    							                <div class="item">
+       							                <img src="{{photo}}" style="height:auto;" alt="">
+       							                <div class="carousel-caption">
+       							                  <h4>{{item.ProductName}}</h4>
+       							                </div>
+       							              </div>
+    							              {% endfor %}
+
+ 							              {% endif %}
+ 							            
+ 							            
+ 							            
+ 							            
+ 							            
+ 							            </div>
+ 							            <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+ 							            <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+ 							          </div>
+ 					</div>
+			         
+			          
+			        </div><!--/span-->
+			
+			      </div><!--/row-->
+
+{% endblock %}

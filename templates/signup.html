@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+
+ {% block header %}
+ <script src="/static/js/signup.js"></script>
+ {% endblock %}
+{% block title %}开始您的社会化商品探索之旅 - {% endblock %}
+
+{% block content %}
+{% if userProfile %}
+<h2>
+{{userProfile.screen_name}},开始您的社会化商品探索之旅</h2>
+    
+{% else %}
+    <h2>开始您的社会化商品探索之旅</h2>
+{% endif %}
+      <div class="row">
+    <div class="span8">
+      
+      <form class="form-horizontal">
+	
+        <fieldset>
+	
+          <legend><img class="bs-icon" src="/static/img/glyphicons/glyphicons_042_group.png"> 
+              {% if userProfile %}
+              注册新用户 [连接自:{{userProfile.from}}]
+              {% else %}
+              注册新用户
+              {% endif %}
+              </legend>
+              
+          <div class="control-group">
+              <label class="control-label" for="input01">头像:</label>
+              
+    <div class="controls">
+        <img src="{{userProfile.profile_image_url}}" width="52" height="52" alt=""><br><br>
+        
+    </div>
+            <label class="control-label" for="input01">用户名:</label>
+            <div class="controls">
+			 
+              <input type="text" class="input-xlarge disabled" id="disabledInput" value="{{userProfile.name}}" disabled><br><br>
+				
+            </div>
+            <label class="control-label required" for="input01">邮箱:</label>
+            <div class="controls">
+			
+              <input type="text" class="input-xlarge required"  id="e-mail"><br><br>
+				<div name="error" class="alert alert-info" id="suggestion" style="width:300px">
+				            <strong>注意!</strong>
+				            必须使用邮箱作为您的用户名.<a href="http://www.gmail.com"><code>推荐使用Gmail</code></a>
+				          </div>
+				          <div class="alert alert-error" id="error-empty-email" style="width:300px">
+      					            <strong>注意!</strong>
+      					            邮箱不能为空！
+      					          </div>          
+            </div>
+			 <label class="control-label">密码:</label>
+	            <div class="controls">
+	              <input type="password" class="input-xlarge required" id="passwd"><br><br>
+			
+				          	<div class="alert alert-error" id="error-empty-pwd" style="width:300px">
+          					            <strong>注意!</strong>
+          					            密码不能为空！
+          					          </div>                
+	            </div>
+		            <div class="controls">
+		              <input type="password" class="input-xlarge" id="re-passwd"><br><br>
+					<div class="alert alert-error" id="error-repwd" style="width:300px">
+					            <strong>注意!</strong>
+					            重复输入上面的密码
+					          </div>              
+		            </div>
+					<div class="controls">
+						<div class="accordion-group">
+				              <div class="accordion-heading">
+				                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+									<span class="label label-info">阅读我们的免责声明</span>
+				                </a>
+				              </div>
+				              <div id="collapseOne" class="accordion-body collapse">
+				                <div class="accordion-inner">
+				                 	<ul>
+								        <li>一切商品信息来源自网络，我们不能保证其质量</li>
+								        <li>为了给您呈现更好的搜索结果，需要记录您的搜索历史用来优化商品推荐引擎</li>
+										<li><span class="label label-important">我们承诺绝不会保存用户明文密码</span></li>
+								        <li>绝不会以任何形式泄露您的个人信息</li>
+								      </ul>
+				                </div>
+				              </div>
+								 <label class="checkbox" style="margin-left:10px">
+					                <input type="checkbox" id="accept-box">
+					             我接受上述条款
+					              </label>
+				            </div><br>
+				            <div class="alert alert-error" id="accept-rule" style="width:300px">
+        					         <strong>注意!</strong>
+        					            请接受我们的条款
+        					          </div>
+
+					             
+					            </div>
+          </div>
+          
+          <div class="form-actions">
+            <a type="submit" id="submit" class="btn btn-primary">提交注册信息</a>
+            <button class="btn">取消</button>
+          </div>
+        </fieldset>
+      </form>
+      <h3>成长中的Focusense需要您的帮助</h3>
+      <p>如果您使用中遇到问题或者有任何建议请联系我们，我们将在第一时间响应 <a href="mailto:hi.moonlight@gmail.com"><code>hi.moonlight@gmail.com</code></a></p>
+
+    </div>
+    <div class="span4">
+      <h3><img class="bs-icon" src="/static/img/glyphicons/glyphicons_266_book_open.png">
+       咦？社会化搜索？</h3>
+      <p>我们整个各大社交系统开放平台,为您提供最优的服务</p>
+      <ul>
+        <li>连接您的SNS账号,单点登录</li>
+        <li>分享你所喜欢的</li>
+        <li>买东西？别急，先看看讨论！</li>
+        <li>怎么省钱？货比三家</li>
+        <li>购物达人的你怎么能错过限时折扣？</li>
+        <li>我们会推送各种您感兴趣的促销信息</li>
+        <li>基于社会化推荐引擎,给您的搜索结果呈现智能元素</li>
+      </ul>
+      <hr>
+      <h3><img class="bs-icon" src="/static/img/glyphicons/glyphicons_009_magic.png"> 我们在不断成长:)</h3>
+      <p> 在中国浩浩荡荡的互联网创业大军中，<br>我们只是小小的团队之一。<br>从萌生想法到第一个demo完成,仅仅过了1个多月的时间,<br>感谢期间所有给予我们帮助的人。<br>我们只专注互联网购物领域,<br>坚信有一天用我们的“微创新”来改变您的生活。</p><hr>
+	<h3><img class="bs-icon" src="/static/img/glyphicons/glyphicons_163_iphone.png"> Focusense for iOS</h3>
+      <p>iOS客户端即将登陆App Store.</p>
+	<ul>
+        <li>在iOS平台上体验Focusense</li>
+        <li>折扣、促销信息尽在掌握</li>
+        <li>实时推送信息</li>
+        <li>Be Social,分享随时随地</li>
+        <li>自发组织团购</li>
+        <li>更多精敬请期待...</li>
+      </ul>
+    </div><!--end span4 -->
+
+
+</div>
+{% endblock %}

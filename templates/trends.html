@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load search_template_tag_extra %}
+
+{% block header %}
+<script src="/static/js/trends.js"></script>
+<link href="/static/css/trends.css" rel="stylesheet">
+
+{% endblock%}
+{% block title %}趋势 - {% endblock %}
+
+{% block content %}
+	<header class="hero-unit" align="center">
+	    <div class="well">
+      	        <h1>Focusense Score 排名榜</h1><hr>
+                <div class="row">
+                  {% for ritem in top_score %}
+                   <div class="thumbnail span2-5" style="margin-top:10px;">
+           	                            {% if ritem.MorePhotos.1 %}
+                  				            <img src="{{ritem.MorePhotos.1}}_200x200.jpg" style="height:200px">
+                  				            {% else %}
+                  				            <img src="{{ritem.MorePhotos.0}}_200x200.jpg" style="height:200px">
+                  				            {% endif %}
+
+                  				            <div class="caption">
+                  				              <h5>{{ritem.ProductName|cut_str:12}}</h5>
+                  				              <p><span class="badge badge-warning">￥</span><a href="#" class="tooltip-test" title="别着急买,先看看用户的讨论吧:)"> <b>{{ritem.ProductPrice|shrink_price}}</b></a> </p>
+                  				              <p><a href="/item/{{ritem.ProductID}}" class="btn btn-info">查看</a> 
+                  				                  <a class="btn dislike-recommend" >不喜欢</a></p>
+                  				            </div>
+                  				          </div>
+
+                  {% endfor %}
+                  </div>
+      	      </div>
+	    <div class="well">
+	        <h1>热门搜索</h1><hr>
+            {% for key in hotkeys %}
+                <a class="{{rand|random_label:0}}" href="../search?keys={{key}}">{{key}}</a>
+            {% endfor %}
+	      </div>
+	      <div class="well">
+  	        <h1>最受喜欢的</h1><hr>
+              <div class="row">
+                    {% for ritem in most_like_item %}
+                          <div class="thumbnail span2-5" style="margin-top:10px;">
+           	                            {% if ritem.cover.1 %}
+                  				            <img src="{{ritem.cover.1}}_200x200.jpg" style="height:200px">
+                  				            {% else %}
+                  				            <img src="{{ritem.cover.0}}_200x200.jpg" style="height:200px">
+                  				            {% endif %}
+
+                  				            <div class="caption">
+                  				              <h5>{{ritem.title|cut_str:12}}</h5>
+                  				              <p><span class="badge badge-warning">￥</span><a href="#" class="tooltip-test" title="别着急买,先看看用户的讨论吧:)"> <b>{{ritem.price|shrink_price}}</b></a> </p>
+                  				              <p><a href="/item/{{ritem.pid}}" class="btn btn-info">查看</a> 
+                  				                  <a class="btn dislike-recommend" >不喜欢</a></p>
+                  				            </div>
+                  				          </div>
+                          
+                         {% endfor %}
+                </div>
+  	      </div>
+	       <div class="well">
+    	        <h1>分享次数最多</h1><hr>
+                <div class="row">
+                      {% for ritem in most_share_item %}
+                            <div class="thumbnail span2-5" style="margin-top:10px;">
+             	                            {% if ritem.cover.1 %}
+                    				            <img src="{{ritem.cover.1}}_200x200.jpg" style="height:200px">
+                    				            {% else %}
+                    				            <img src="{{ritem.cover.0}}_200x200.jpg" style="height:200px">
+                    				            {% endif %}
+
+                    				            <div class="caption">
+                    				              <h5>{{ritem.title|cut_str:12}}</h5>
+                    				              <p><span class="badge badge-warning">￥</span><a href="#" class="tooltip-test" title="别着急买,先看看用户的讨论吧:)"> <b>{{ritem.price|shrink_price}}</b></a> </p>
+                    				              <p><a href="/item/{{ritem.pid}}" class="btn btn-info">查看</a> 
+                    				                  <a class="btn dislike-recommend" >不喜欢</a></p>
+                    				            </div>
+                    				          </div>
+                            
+
+                           {% endfor %}
+                  </div>
+    	      </div>
+    	       <div class="well">
+          	       <h1>访问量最多</h1><hr>
+                     <div class="row">
+
+                           {% for ritem in most_visit_item %}
+                                 <div class="thumbnail span2-5" style="margin-top:10px;">
+                 	                            {% if ritem.cover.1 %}
+                        				            <img src="{{ritem.cover.1}}_200x200.jpg" style="height:200px">
+                        				            {% else %}
+                        				            <img src="{{ritem.cover.0}}_200x200.jpg" style="height:200px">
+                        				            {% endif %}
+
+                        				            <div class="caption">
+                        				              <h5>{{ritem.title|cut_str:12}}</h5>
+                        				              <p><span class="badge badge-warning">￥</span><a href="#" class="tooltip-test" title="别着急买,先看看用户的讨论吧:)"> <b>{{ritem.price|shrink_price}}</b></a> </p>
+                        				              <p><a href="/item/{{ritem.pid}}" class="btn btn-info">查看</a> 
+                        				                  <a class="btn dislike-recommend" >不喜欢</a></p>
+                        				            </div>
+                        				          </div>
+
+                                {% endfor %}
+                       </div>
+                         <hr>
+          	      </div>   
+	</header>
+	 
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block header %}
+<script src="/static/js/growing.js"></script>
+<script src="/static/js/flipify.js" type="text/javascript" charset="utf-8"></script>
+<link href="/static/css/growing.css" rel="stylesheet">
+
+{% endblock%}
+{% block title %}我们在成长 - {% endblock %}
+
+{% block content %}
+	<header class="hero-unit" align="center">
+	   <h1>Focusense在成长</h1>
+	   <p>We Focu(s)Sense In Social Shopping</p>
+	   <div class="well" align="left">
+	   <h2>
+	   <ul>
+	       <li>Focusense上线至今已有:</li>
+	       <div class='wrapitup' align="center">
+             		<div id="counter" class='box'></div>
+             	</div>
+	       <li>我们共有注册用户:           {{user_count}} 名</li><br>
+	       <li>我们共收录高质量商品:      {{database_size}} 件</li><br>
+	       <li>我们共完成收搜索请求:       {{search_count}} 次</li><br>
+
+	       <li>我们全站页面访问次数:       {{visit_count}} 次</li><br>
+	       <li>我们整合社交平台: 新浪微博 (腾讯微博、人人网、豆瓣跟进中...)</li><br>
+	       <li>我们整合购物平台: 淘宝 (京东、凡客跟进中...)</li><br>
+	       <li>我们致力于打造一个社会化商品分享空间，让您享受社会化购物带来的乐趣</li>       
+	   </ul>
+	   <h2>
+	   </div>
+	   
+	</header>
+	<div class="well" align="center">
+	   <h1>成长历程</h1>
+	   <div align="left">
+	       <h4><ul>
+	           <li>2012-4-17    完善了用户注册机制.</li> 
+	           <li>2012-4-16    变更全站链接,取消Request获取参数方式.</li> 
+	           <li>2012-4-16    根据StackOverflow和Reddit的社会化排名算法进行改进,初步完成本系统的分享排名.</li> 
+	           <li>2012-4-16    微博聚合功能上线.</li>
+       	       <li>2012-4-15    微博聚合初步完成.</li>
+       	       <li>2012-4-13    新增PureTitle,增加商品标题净化.</li>
+       	       <li>2012-4-13    新增同类商品推荐.</li>
+       	       <li>2012-4-13    优化Crawler爬取速度,完善了异常处理.</li>
+       	       <li>2012-4-12    完成Focusense Score计算模块,提高商品爬取质量.</li>
+                <li>2012-4-11   分类模块、趋势模块上.</li>
+                 <li>2012-4-11  添加中文分词模块、使用搜狗词库.</li>
+                 <li>2012-4-11  淘宝客环境配置完毕,添加促销链接.</li>
+                <li>2012-4-10   用户注册模块、分享功能、"喜欢"功能上线.</li>
+                <li>2012-4-09   丰富了Web Crawler抓取内容</li>
+                <li>2012-4-09   Web Crawler 多线程支持、代理支持、连接池支持.</li>
+                <li>2012-4-08   Focusense Demo上线</li>
+                <li>2012-4-08   Focusense 迁移到Amazon EC2</li>
+       	   </ul>
+	        </h4>
+	   </div>
+	</div>
+     <div class="well">
+         <div class="marketing ">
+     	        <h1>What Inside Focusense</h1>
+                  <p class="marketing-byline">Progressively enhanced components for us.</p>
+         <div class="row" align="center">
+         <img class="" width="200" src="/static/img/platform/aws.png">
+         <img class="" width="200" src="/static/img/platform/hdr_logo.png">
+         <img class="" width="200"  src="/static/img/platform/jquery.png">
+         <img class="" width="100" style="margin-left:80px" src="/static/img/platform/html5.png">
+         <img class="" src="/static/img/platform/logo-mongodb.png">
+         <img class="" width="200" src="/static/img/platform/nginx.gif">
+         <img class="" width="200" src="/static/img/platform/python-logo.png">
+         <img class="" width="200" src="/static/img/platform/redis.png">
+</div>
+                            
+     </div>
+	</div>
+{% endblock %}
